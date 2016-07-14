@@ -34,7 +34,10 @@
 
 - [Crates & Modules]()
 
-- [Error Handling]()
+- [Error Handling](ch07-01-error-handling.md)
+    - [Unrecoverable errors with panic!](ch07-02-unrecoverable-errors-with-panic.md)
+    - [Recoverable errors with `Result<T, E>`](ch07-03-recoverable-errors-with-result.md)
+    - [Creating your own Error types](ch07-04-creating-your-own-error-types.md)
 
 - [Basic Collections]()
     - [Vectors]()
