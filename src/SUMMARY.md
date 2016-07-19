@@ -36,10 +36,10 @@
 
 - [Error Handling]()
 
-- [Basic Collections]()
-    - [Vectors]()
-    - [Strings]()
-    - [`HashMap<K, V>`]()
+- [Basic Collections](ch09-01-basic-collections.md)
+    - [Vectors](ch09-02-vectors.md)
+    - [Strings](ch09-03-strings.md)
+    - [`HashMap<K, V>`](ch09-04-hash-map.md)
 
 - [Lifetimes]()
 
