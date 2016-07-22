@@ -32,7 +32,10 @@
     - [if let](ch06-04-if-let.md)
     - [Patterns](ch06-05-patterns.md)
 
-- [Crates & Modules]()
+- [Modules](ch07-01-modules.md)
+    - [`mod` and the filesystem](ch07-02-mod-and-the-filesystem.md)
+    - [Controlling visibility with `pub`](ch07-03-controlling-visibility-with-pub.md)
+    - [Importing names with `use`](ch07-04-importing-names-with-use.md)
 
 - [Error Handling]()
 
