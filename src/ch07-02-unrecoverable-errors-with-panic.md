@@ -13,12 +13,12 @@ fn check_guess(number: u32) -> bool {
 }
 ```
 
-This function accepts a guess between zero and a hundred, and checks if it's
+This function accepts a guess between zero and a hundred and checks if it's
 equivalent to the correct number, which is `34` in this case. It's kind of a
 silly function, but we need an example, so it works.
 
 There's no number type for "between zero and a hundred" in Rust, so we are
-accepting a `u32`, and then checking in the function's body to make sure the
+accepting a `u32` and then verifying in the function's body that the
 guess is in-bounds. If the number is too big, there's been an error: someone
 made a mistake. We then invoke `panic!` to say "something went wrong, we cannot
 continue to run this program."
@@ -36,7 +36,7 @@ fn check_guess(number: u32) -> bool {
 }
 ```
 
-If we try and use `check_guess` in a program, and make an error:
+If we try and use `check_guess` in a program and make an error:
 
 ```rust,should_panic
 fn check_guess(number: u32) -> bool {
@@ -59,18 +59,19 @@ fn main() {
 
 We'll see output like this:
 
-```text
+```bash
 answer was: false
 answer was: true
 
 thread '<main>' panicked at 'assertion failed: number < 100', <anon>:2
 ```
 
-First, `5` was okay, but false. Then, `34` was okay, but true. Finally, `500`
-caused a panic.
+First, `5` was a valid guess, but the condition evaluated to false. Then, `34`
+was also a valid guess, and the condition evaluated to true. Finally, `500`
+caused a panic because it was not a valid guess.
 
 Panics cause your program to stop executing. To check this, we could move the
-failing case above the good cases:
+invalid guess case above the valid guess cases:
 
 ```rust,should_panic
 # fn check_guess(number: u32) -> bool {
@@ -93,7 +94,7 @@ fn main() {
 
 If we run it, we'll see that we never check `5` or `34`:
 
-```text
+```bash
 thread '<main>' panicked at 'assertion failed: number < 100', <anon>:2
 ```
 
@@ -154,7 +155,7 @@ variable bindings written in:
 ```
 
 When `check_guess` causes a `panic!` via `assert!`, it will walk back through
-each of these functions, and clean them up. We haven't yet talked about
+each of these functions and clean them up. We haven't yet talked about
 destructors in Rust, that'll come in Chapter XX. For now, think about it this
 way: simple values like that `u32` can be destroyed by freeing their memory.
 More complicated values, like `String`s, have more complicated needs. In these

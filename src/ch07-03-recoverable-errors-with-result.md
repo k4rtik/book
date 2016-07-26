@@ -46,7 +46,7 @@ fn check_guess(number: u32) -> Result<bool, &'static str> {
 Originally, we returned a `bool`, but now we return a
 `Result<bool, &'static str>`. This is a type [provided by the standard library]
 specifically for indicating that a function might have an error. More
-specifically, it's an [`enum`] that looks like this:
+specifically, it's an [enum] that looks like this:
 
 ```rust
 pub enum Result<T, E> {
@@ -56,13 +56,13 @@ pub enum Result<T, E> {
 ```
 
 [provided by the standard library]: https://doc.rust-lang.org/stable/std/result/enum.Result.html
-[`enum]`: ch06-01-enums.html
+[enum]: ch06-01-enums.html
 
 `Result<T, E>` is generic over two types: `T`, which is the successful case, and
 `E`, which is the error case. It has two variants, `Ok` and `Err`, which also
 correspond to these cases, respectively. So the type `Result<bool, &'static
-str>` means that in the successful, `Ok` case, we will be returning a `bool`.
-But in the failure, `Err` case, we will be returning a string literal.
+str>` means that in the successful `Ok` case, we will be returning a `bool`.
+But in the failure `Err` case, we will be returning a string literal.
 
 ```rust
 # fn check_guess(number: u32) -> Result<bool, &'static str> {
