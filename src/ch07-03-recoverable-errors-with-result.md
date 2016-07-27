@@ -64,28 +64,16 @@ correspond to these cases, respectively. So the type `Result<bool, &'static
 str>` means that in the successful `Ok` case, we will be returning a `bool`.
 But in the failure `Err` case, we will be returning a string literal.
 
-```rust
-# fn check_guess(number: u32) -> Result<bool, &'static str> {
-#     if number > 100 {
-        return Err("Number was out of range");
-#     }
-# 
-#     Ok(number == 34)
-# }
+```rust,ignore
+return Err("Number was out of range");
 ```
 
 The second change we need to make is to our error case. Instead of causing a
 `panic!`, we now `return` an `Err`, with a string literal inside. Remember,
 `Result<T, E>` is an enum: `Err` is one of its variants.
 
-```rust
-# fn check_guess(number: u32) -> Result<bool, &'static str> {
-#     if number > 100 {
-#         return Err("Number was out of range");
-#     }
-# 
-     Ok(number == 34)
-# }
+```rust,ignore
+Ok(number == 34)
 ```
 
 We also need to handle the successful case as well, and we make a change
