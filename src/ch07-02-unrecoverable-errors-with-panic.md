@@ -73,13 +73,7 @@ caused a panic because it was not a valid guess.
 Panics cause your program to stop executing. To check this, we could move the
 invalid guess case above the valid guess cases:
 
-```rust,should_panic
-# fn check_guess(number: u32) -> bool {
-#     assert!(number < 100);
-# 
-#     number == 34
-# }
-# 
+```rust,ignore
 fn main() {
     let answer = check_guess(500);
     println!("answer was: {}", answer);
