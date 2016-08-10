@@ -5,10 +5,11 @@ rust:
   - beta
   - stable
 before_script:
-  - cargo install mdbook
+        - cargo install mdbook --git https://github.com/azerupi/mdBook.git
 script:
   - PATH=$PATH:/home/travis/.cargo/bin mdbook test
   - PATH=$PATH:/home/travis/.cargo/bin mdbook build
+  - cargo run --bin lfp src
 after_success:
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy.sh
 env:
