@@ -1,10 +1,19 @@
+
+[TOC]
+
 # Guessing Game
 
-Let's jump into Rust with a hands-on project! We’ll implement a classic
-beginner programming problem: the guessing game. Here’s how it works: Our
-program will generate a random integer between one and a hundred. It will then
-prompt us to enter a guess. Upon entering our guess, it will tell us if we’re
-too low or too high. Once we guess correctly, it will congratulate us.
+Let's jump into Rust with a hands-on project! This chapter will introduce you to
+a few common Rust concepts by showing how you would use them in a real program.
+You'll learn about `let`, `match`, methods, associated functions, using
+external crates, and more! Following chapters will explore these ideas in more
+detail.
+
+We’re going to implement a classic beginner programming problem: the guessing
+game. Here’s how it works: Our program will generate a random integer between
+one and a hundred. It will then prompt us to enter a guess. Upon entering our
+guess, it will tell us if we’re too low or too high. Once we guess correctly,
+it will congratulate us.
 
 ## Setting Up a New Project
 
@@ -89,11 +98,15 @@ There’s a lot here! Let’s go over it, bit by bit.
 use std::io;
 ```
 
-We’ll need to take user input and then print the result as output. As such, we
-need the `io` library from the standard library. Rust only imports a few things
-by default into every program, [the ‘prelude’][prelude]. If it’s not in the
-prelude, you’ll have to `use` it directly. Using the `std::io` library gets
-you a number of useful `io`-related things, so that's what we've done here.
+We’ll need to take user input and then print the result as output, and for that
+functonality we need to import the `io` (input/output) library from the
+standard library (which is known as `std`).
+
+By default, Rust only imports a few things into every program in [the
+*prelude*](prelude). If it’s not in the prelude, you’ll have to import it into
+your program explicitly with a `use` statement. Using the `std::io` library
+gets you a number of useful `io`-related things, including the functionality to
+accept user input.
 
 [prelude]: ../std/prelude/index.html
 
@@ -115,15 +128,17 @@ As we learned in Chapter 1, `println!()` is a macro that prints a string to the
 screen. This is just a prompt stating what the game is and requesting input from
 the user.
 
-### Variable Bindings
+### Storing Values with Variable Bindings
+
+Next we need to store the user input.
 
 ```rust,ignore
 let mut guess = String::new();
 ```
 
 Now we’re getting interesting! There’s a lot going on in this little line.
-The first thing to notice is that this is a let statement, which is
-used to create what are called ‘variable bindings’. Here's an example:
+The first thing to notice is that this is a `let` statement, which is
+used to create ‘variable bindings’. Here's another example:
 
 ```rust,ignore
 let foo = bar;
@@ -153,14 +168,18 @@ bound to: `String::new()`.
 
 [string]: ../std/string/struct.String.html
 
-The `::` syntax in the `::new()` line indicates that `new()` is an *associated function* of
-a particular type. That is to say, it’s associated with `String` itself,
-rather than a particular instance of a `String`. Some languages call this a
-*static method*.
+The `::` syntax in the `::new()` line indicates that `new()` is an *associated
+function* of a particular type. An associated function is a function that is
+associated with a type, in this case `String`, rather than a particular
+instance of a `String`. Some languages call this a *static method*.
 
 This `new()` function creates a new, empty `String`.
 You’ll find a `new()` function on many types, as it’s a common name for making
 a new value of some kind.
+
+So to summarize, the `let mut guess = String::new();` line has created a
+mutable binding that is currently bound to a new, empty instance of a `String`.
+Whew!
 
 Let’s move forward:
 
@@ -174,49 +193,44 @@ Remember how we `use`d `std::io` on the first line of the program? We’re now
 calling an associated function on it. If we didn’t `use std::io`, we could
 have written this line as `std::io::stdin()`.
 
-This particular function returns a handle to the standard input for your
-terminal. More specifically, a [std::io::Stdin][iostdin].
+This particular function returns an instance of [`std::io::Stdin`][iostdin],
+which is a type that represents a handle to the standard input for your
+terminal.
 
 [iostdin]: ../std/io/struct.Stdin.html
 
-The next part will use this handle to get input from the user:
-
-```rust,ignore
-.read_line(&mut guess)
-```
-
-Here, we call the [`read_line()`][read_line] method on our handle. We’re also
+The next part, `.read_line(&mut guess)`, calls the [`readline()`][read_line]
+method on the standard input handle to get input from the user. We’re also
 passing one argument to `read_line()`: `&mut guess`.
 
 [read_line]: ../std/io/struct.Stdin.html#method.read_line
 
-Remember how we bound `guess` above? We said it was mutable. However,
-`read_line` doesn’t take a `String` as an argument: it takes a `&mut String`.
-The `&` is the feature of Rust called a ‘reference’, which allows you to have
-multiple ways to access one piece of data in order to reduce copying.
-References are a complex feature, as one of Rust’s major selling points is how
-safe and easy it is to use references. We don’t need to know a lot of those
-details to finish our program right now, though; Chapter XX will cover references in
-more detail. For now, all we need to know is that like `let` bindings,
-references are immutable by default. Hence, we need to write `&mut guess`,
-rather than `&guess` to make it mutable.
+The job of `read_line()` is to take whatever the user types into standard input
+and place that into a string, so it takes that string as an argument. The
+string argument needs to be mutable so that the method can change the string's
+content by adding the user input.
 
-Why does `read_line()` take a mutable reference to a string? Its job is
-to take what the user types into standard input and place that into a
-string. So it takes that string as an argument, and in order to add
-the input, that string needs to be mutable.
+The `&` indicates that this argument is a `reference`, which gives you a way to
+allow multiple parts of your code to access to one piece of data without
+needing to copy that data into memory multiple times. References are a complex
+feature, and one of Rust’s major advantages is how safe and easy it is to use
+references. We don’t need to know a lot of those details to finish our program
+right now, though; Chapter XX will cover references in more detail. For now,
+all we need to know is that like `let` bindings, references are immutable by
+default. Hence, we need to write `&mut guess`, rather than `&guess` to make it
+mutable.
 
-We’re not quite done with this line of code. While it’s
-a single line of text, it’s only the first part of the single logical line of
-code. The second part is this method:
+We’re not quite done with this line of code. While it’s a single line of text,
+it’s only the first part of the single logical line of code. The second part is
+this method:
 
 ```rust,ignore
 .expect("Failed to read line");
 ```
 
-When you call a method with the `.foo()` syntax, you may introduce a newline
-and other whitespace. This helps you split up long lines. We _could_ have
-written this code as:
+When you call a method with the `.foo()` syntax, it's often wise to introduce a
+newline and other whitespace. This helps you split up long lines. We _could_
+have written this code as:
 
 ```rust,ignore
 io::stdin().read_line(&mut guess).expect("failed to read line");
